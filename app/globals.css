@@ -1,26 +1,138 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Google Fonts import */
+
+
+@theme {
+  /* Fonts */
+  --font-sans: 'Inter', sans-serif;
+  --font-display: 'Space Grotesk', sans-serif;
+
+  /* Border radius */
+  --radius-lg: 0.75rem;
+  --radius-md: calc(0.75rem - 2px);
+  --radius-sm: calc(0.75rem - 4px);
+
+  /* Colors */
+  --color-background: hsl(240 15% 6%);
+  --color-foreground: hsl(0 0% 98%);
+
+  --color-card: hsl(240 15% 9%);
+  --color-card-foreground: hsl(0 0% 98%);
+
+  --color-popover: hsl(240 15% 9%);
+  --color-popover-foreground: hsl(0 0% 98%);
+
+  --color-primary: hsl(180 100% 50%);
+  --color-primary-foreground: hsl(240 15% 6%);
+
+  --color-secondary: hsl(180 80% 40%);
+  --color-secondary-foreground: hsl(0 0% 98%);
+
+  --color-muted: hsl(240 10% 15%);
+  --color-muted-foreground: hsl(240 5% 55%);
+
+  --color-accent: hsl(180 70% 45%);
+  --color-accent-foreground: hsl(0 0% 98%);
+
+  --color-destructive: hsl(0 84% 60%);
+  --color-destructive-foreground: hsl(0 0% 98%);
+
+  --color-border: hsl(240 10% 18%);
+  --color-input: hsl(240 10% 18%);
+  --color-ring: hsl(180 100% 50%);
+
+  /* Custom cyan palette */
+  --color-cyan-400: hsl(180 100% 50%);
+  --color-cyan-500: hsl(180 100% 45%);
+  --color-cyan-600: hsl(180 80% 35%);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-sans);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(180 100% 50%) 0%, hsl(180 60% 35%) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gradient-border {
+    position: relative;
+    background: hsl(240 15% 10% / 0.7);
+    border-radius: var(--radius-lg);
+  }
+
+  .gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, hsl(180 100% 50%) 0%, hsl(180 60% 35%) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .glass-card {
+    background: hsl(240 15% 10% / 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid hsl(240 10% 25% / 0.5);
+    box-shadow: 0 8px 32px hsl(0 0% 0% / 0.4);
+  }
+
+  .glow {
+    box-shadow: 0 0 60px hsl(180 100% 50% / 0.2), 0 0 100px hsl(180 60% 40% / 0.15);
+  }
+
+  .animate-pulse-slow {
+    animation: pulse-slow 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-slow {
+    0%, 100% {
+      opacity: 0.6;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.02);
+    }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
 }
+
