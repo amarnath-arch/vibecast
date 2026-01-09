@@ -33,7 +33,10 @@ export type StreamMinAggregateOutputType = {
   smallThumbnail: string | null
   bigThumbnail: string | null
   active: boolean | null
+  currentlyPlaying: boolean | null
   userId: string | null
+  createdAt: Date | null
+  addedBy: string | null
 }
 
 export type StreamMaxAggregateOutputType = {
@@ -45,7 +48,10 @@ export type StreamMaxAggregateOutputType = {
   smallThumbnail: string | null
   bigThumbnail: string | null
   active: boolean | null
+  currentlyPlaying: boolean | null
   userId: string | null
+  createdAt: Date | null
+  addedBy: string | null
 }
 
 export type StreamCountAggregateOutputType = {
@@ -57,7 +63,10 @@ export type StreamCountAggregateOutputType = {
   smallThumbnail: number
   bigThumbnail: number
   active: number
+  currentlyPlaying: number
   userId: number
+  createdAt: number
+  addedBy: number
   _all: number
 }
 
@@ -71,7 +80,10 @@ export type StreamMinAggregateInputType = {
   smallThumbnail?: true
   bigThumbnail?: true
   active?: true
+  currentlyPlaying?: true
   userId?: true
+  createdAt?: true
+  addedBy?: true
 }
 
 export type StreamMaxAggregateInputType = {
@@ -83,7 +95,10 @@ export type StreamMaxAggregateInputType = {
   smallThumbnail?: true
   bigThumbnail?: true
   active?: true
+  currentlyPlaying?: true
   userId?: true
+  createdAt?: true
+  addedBy?: true
 }
 
 export type StreamCountAggregateInputType = {
@@ -95,7 +110,10 @@ export type StreamCountAggregateInputType = {
   smallThumbnail?: true
   bigThumbnail?: true
   active?: true
+  currentlyPlaying?: true
   userId?: true
+  createdAt?: true
+  addedBy?: true
   _all?: true
 }
 
@@ -180,7 +198,10 @@ export type StreamGroupByOutputType = {
   smallThumbnail: string
   bigThumbnail: string
   active: boolean
+  currentlyPlaying: boolean
   userId: string
+  createdAt: Date
+  addedBy: string
   _count: StreamCountAggregateOutputType | null
   _min: StreamMinAggregateOutputType | null
   _max: StreamMaxAggregateOutputType | null
@@ -213,7 +234,11 @@ export type StreamWhereInput = {
   smallThumbnail?: Prisma.StringFilter<"Stream"> | string
   bigThumbnail?: Prisma.StringFilter<"Stream"> | string
   active?: Prisma.BoolFilter<"Stream"> | boolean
+  currentlyPlaying?: Prisma.BoolFilter<"Stream"> | boolean
   userId?: Prisma.StringFilter<"Stream"> | string
+  createdAt?: Prisma.DateTimeFilter<"Stream"> | Date | string
+  addedBy?: Prisma.StringFilter<"Stream"> | string
+  adder?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   upvotes?: Prisma.UpvotesListRelationFilter
 }
@@ -227,7 +252,11 @@ export type StreamOrderByWithRelationInput = {
   smallThumbnail?: Prisma.SortOrder
   bigThumbnail?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  currentlyPlaying?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  addedBy?: Prisma.SortOrder
+  adder?: Prisma.UserOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
   upvotes?: Prisma.UpvotesOrderByRelationAggregateInput
 }
@@ -244,7 +273,11 @@ export type StreamWhereUniqueInput = Prisma.AtLeast<{
   smallThumbnail?: Prisma.StringFilter<"Stream"> | string
   bigThumbnail?: Prisma.StringFilter<"Stream"> | string
   active?: Prisma.BoolFilter<"Stream"> | boolean
+  currentlyPlaying?: Prisma.BoolFilter<"Stream"> | boolean
   userId?: Prisma.StringFilter<"Stream"> | string
+  createdAt?: Prisma.DateTimeFilter<"Stream"> | Date | string
+  addedBy?: Prisma.StringFilter<"Stream"> | string
+  adder?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   upvotes?: Prisma.UpvotesListRelationFilter
 }, "id">
@@ -258,7 +291,10 @@ export type StreamOrderByWithAggregationInput = {
   smallThumbnail?: Prisma.SortOrder
   bigThumbnail?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  currentlyPlaying?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  addedBy?: Prisma.SortOrder
   _count?: Prisma.StreamCountOrderByAggregateInput
   _max?: Prisma.StreamMaxOrderByAggregateInput
   _min?: Prisma.StreamMinOrderByAggregateInput
@@ -276,7 +312,10 @@ export type StreamScalarWhereWithAggregatesInput = {
   smallThumbnail?: Prisma.StringWithAggregatesFilter<"Stream"> | string
   bigThumbnail?: Prisma.StringWithAggregatesFilter<"Stream"> | string
   active?: Prisma.BoolWithAggregatesFilter<"Stream"> | boolean
+  currentlyPlaying?: Prisma.BoolWithAggregatesFilter<"Stream"> | boolean
   userId?: Prisma.StringWithAggregatesFilter<"Stream"> | string
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Stream"> | Date | string
+  addedBy?: Prisma.StringWithAggregatesFilter<"Stream"> | string
 }
 
 export type StreamCreateInput = {
@@ -288,7 +327,10 @@ export type StreamCreateInput = {
   smallThumbnail: string
   bigThumbnail: string
   active?: boolean
-  user: Prisma.UserCreateNestedOneWithoutStreamsInput
+  currentlyPlaying?: boolean
+  createdAt?: Date | string
+  adder: Prisma.UserCreateNestedOneWithoutAddedStreamsInput
+  user: Prisma.UserCreateNestedOneWithoutCreatorStreamsInput
   upvotes?: Prisma.UpvotesCreateNestedManyWithoutStreamInput
 }
 
@@ -301,7 +343,10 @@ export type StreamUncheckedCreateInput = {
   smallThumbnail: string
   bigThumbnail: string
   active?: boolean
+  currentlyPlaying?: boolean
   userId: string
+  createdAt?: Date | string
+  addedBy: string
   upvotes?: Prisma.UpvotesUncheckedCreateNestedManyWithoutStreamInput
 }
 
@@ -314,7 +359,10 @@ export type StreamUpdateInput = {
   smallThumbnail?: Prisma.StringFieldUpdateOperationsInput | string
   bigThumbnail?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  user?: Prisma.UserUpdateOneRequiredWithoutStreamsNestedInput
+  currentlyPlaying?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  adder?: Prisma.UserUpdateOneRequiredWithoutAddedStreamsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutCreatorStreamsNestedInput
   upvotes?: Prisma.UpvotesUpdateManyWithoutStreamNestedInput
 }
 
@@ -327,7 +375,10 @@ export type StreamUncheckedUpdateInput = {
   smallThumbnail?: Prisma.StringFieldUpdateOperationsInput | string
   bigThumbnail?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  currentlyPlaying?: Prisma.BoolFieldUpdateOperationsInput | boolean
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  addedBy?: Prisma.StringFieldUpdateOperationsInput | string
   upvotes?: Prisma.UpvotesUncheckedUpdateManyWithoutStreamNestedInput
 }
 
@@ -340,7 +391,10 @@ export type StreamCreateManyInput = {
   smallThumbnail: string
   bigThumbnail: string
   active?: boolean
+  currentlyPlaying?: boolean
   userId: string
+  createdAt?: Date | string
+  addedBy: string
 }
 
 export type StreamUpdateManyMutationInput = {
@@ -352,6 +406,8 @@ export type StreamUpdateManyMutationInput = {
   smallThumbnail?: Prisma.StringFieldUpdateOperationsInput | string
   bigThumbnail?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  currentlyPlaying?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type StreamUncheckedUpdateManyInput = {
@@ -363,7 +419,10 @@ export type StreamUncheckedUpdateManyInput = {
   smallThumbnail?: Prisma.StringFieldUpdateOperationsInput | string
   bigThumbnail?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  currentlyPlaying?: Prisma.BoolFieldUpdateOperationsInput | boolean
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  addedBy?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type StreamListRelationFilter = {
@@ -385,7 +444,10 @@ export type StreamCountOrderByAggregateInput = {
   smallThumbnail?: Prisma.SortOrder
   bigThumbnail?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  currentlyPlaying?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  addedBy?: Prisma.SortOrder
 }
 
 export type StreamMaxOrderByAggregateInput = {
@@ -397,7 +459,10 @@ export type StreamMaxOrderByAggregateInput = {
   smallThumbnail?: Prisma.SortOrder
   bigThumbnail?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  currentlyPlaying?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  addedBy?: Prisma.SortOrder
 }
 
 export type StreamMinOrderByAggregateInput = {
@@ -409,12 +474,22 @@ export type StreamMinOrderByAggregateInput = {
   smallThumbnail?: Prisma.SortOrder
   bigThumbnail?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  currentlyPlaying?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  addedBy?: Prisma.SortOrder
 }
 
 export type StreamScalarRelationFilter = {
   is?: Prisma.StreamWhereInput
   isNot?: Prisma.StreamWhereInput
+}
+
+export type StreamCreateNestedManyWithoutAdderInput = {
+  create?: Prisma.XOR<Prisma.StreamCreateWithoutAdderInput, Prisma.StreamUncheckedCreateWithoutAdderInput> | Prisma.StreamCreateWithoutAdderInput[] | Prisma.StreamUncheckedCreateWithoutAdderInput[]
+  connectOrCreate?: Prisma.StreamCreateOrConnectWithoutAdderInput | Prisma.StreamCreateOrConnectWithoutAdderInput[]
+  createMany?: Prisma.StreamCreateManyAdderInputEnvelope
+  connect?: Prisma.StreamWhereUniqueInput | Prisma.StreamWhereUniqueInput[]
 }
 
 export type StreamCreateNestedManyWithoutUserInput = {
@@ -424,11 +499,32 @@ export type StreamCreateNestedManyWithoutUserInput = {
   connect?: Prisma.StreamWhereUniqueInput | Prisma.StreamWhereUniqueInput[]
 }
 
+export type StreamUncheckedCreateNestedManyWithoutAdderInput = {
+  create?: Prisma.XOR<Prisma.StreamCreateWithoutAdderInput, Prisma.StreamUncheckedCreateWithoutAdderInput> | Prisma.StreamCreateWithoutAdderInput[] | Prisma.StreamUncheckedCreateWithoutAdderInput[]
+  connectOrCreate?: Prisma.StreamCreateOrConnectWithoutAdderInput | Prisma.StreamCreateOrConnectWithoutAdderInput[]
+  createMany?: Prisma.StreamCreateManyAdderInputEnvelope
+  connect?: Prisma.StreamWhereUniqueInput | Prisma.StreamWhereUniqueInput[]
+}
+
 export type StreamUncheckedCreateNestedManyWithoutUserInput = {
   create?: Prisma.XOR<Prisma.StreamCreateWithoutUserInput, Prisma.StreamUncheckedCreateWithoutUserInput> | Prisma.StreamCreateWithoutUserInput[] | Prisma.StreamUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.StreamCreateOrConnectWithoutUserInput | Prisma.StreamCreateOrConnectWithoutUserInput[]
   createMany?: Prisma.StreamCreateManyUserInputEnvelope
   connect?: Prisma.StreamWhereUniqueInput | Prisma.StreamWhereUniqueInput[]
+}
+
+export type StreamUpdateManyWithoutAdderNestedInput = {
+  create?: Prisma.XOR<Prisma.StreamCreateWithoutAdderInput, Prisma.StreamUncheckedCreateWithoutAdderInput> | Prisma.StreamCreateWithoutAdderInput[] | Prisma.StreamUncheckedCreateWithoutAdderInput[]
+  connectOrCreate?: Prisma.StreamCreateOrConnectWithoutAdderInput | Prisma.StreamCreateOrConnectWithoutAdderInput[]
+  upsert?: Prisma.StreamUpsertWithWhereUniqueWithoutAdderInput | Prisma.StreamUpsertWithWhereUniqueWithoutAdderInput[]
+  createMany?: Prisma.StreamCreateManyAdderInputEnvelope
+  set?: Prisma.StreamWhereUniqueInput | Prisma.StreamWhereUniqueInput[]
+  disconnect?: Prisma.StreamWhereUniqueInput | Prisma.StreamWhereUniqueInput[]
+  delete?: Prisma.StreamWhereUniqueInput | Prisma.StreamWhereUniqueInput[]
+  connect?: Prisma.StreamWhereUniqueInput | Prisma.StreamWhereUniqueInput[]
+  update?: Prisma.StreamUpdateWithWhereUniqueWithoutAdderInput | Prisma.StreamUpdateWithWhereUniqueWithoutAdderInput[]
+  updateMany?: Prisma.StreamUpdateManyWithWhereWithoutAdderInput | Prisma.StreamUpdateManyWithWhereWithoutAdderInput[]
+  deleteMany?: Prisma.StreamScalarWhereInput | Prisma.StreamScalarWhereInput[]
 }
 
 export type StreamUpdateManyWithoutUserNestedInput = {
@@ -442,6 +538,20 @@ export type StreamUpdateManyWithoutUserNestedInput = {
   connect?: Prisma.StreamWhereUniqueInput | Prisma.StreamWhereUniqueInput[]
   update?: Prisma.StreamUpdateWithWhereUniqueWithoutUserInput | Prisma.StreamUpdateWithWhereUniqueWithoutUserInput[]
   updateMany?: Prisma.StreamUpdateManyWithWhereWithoutUserInput | Prisma.StreamUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.StreamScalarWhereInput | Prisma.StreamScalarWhereInput[]
+}
+
+export type StreamUncheckedUpdateManyWithoutAdderNestedInput = {
+  create?: Prisma.XOR<Prisma.StreamCreateWithoutAdderInput, Prisma.StreamUncheckedCreateWithoutAdderInput> | Prisma.StreamCreateWithoutAdderInput[] | Prisma.StreamUncheckedCreateWithoutAdderInput[]
+  connectOrCreate?: Prisma.StreamCreateOrConnectWithoutAdderInput | Prisma.StreamCreateOrConnectWithoutAdderInput[]
+  upsert?: Prisma.StreamUpsertWithWhereUniqueWithoutAdderInput | Prisma.StreamUpsertWithWhereUniqueWithoutAdderInput[]
+  createMany?: Prisma.StreamCreateManyAdderInputEnvelope
+  set?: Prisma.StreamWhereUniqueInput | Prisma.StreamWhereUniqueInput[]
+  disconnect?: Prisma.StreamWhereUniqueInput | Prisma.StreamWhereUniqueInput[]
+  delete?: Prisma.StreamWhereUniqueInput | Prisma.StreamWhereUniqueInput[]
+  connect?: Prisma.StreamWhereUniqueInput | Prisma.StreamWhereUniqueInput[]
+  update?: Prisma.StreamUpdateWithWhereUniqueWithoutAdderInput | Prisma.StreamUpdateWithWhereUniqueWithoutAdderInput[]
+  updateMany?: Prisma.StreamUpdateManyWithWhereWithoutAdderInput | Prisma.StreamUpdateManyWithWhereWithoutAdderInput[]
   deleteMany?: Prisma.StreamScalarWhereInput | Prisma.StreamScalarWhereInput[]
 }
 
@@ -467,6 +577,10 @@ export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
 
+export type DateTimeFieldUpdateOperationsInput = {
+  set?: Date | string
+}
+
 export type StreamCreateNestedOneWithoutUpvotesInput = {
   create?: Prisma.XOR<Prisma.StreamCreateWithoutUpvotesInput, Prisma.StreamUncheckedCreateWithoutUpvotesInput>
   connectOrCreate?: Prisma.StreamCreateOrConnectWithoutUpvotesInput
@@ -481,6 +595,46 @@ export type StreamUpdateOneRequiredWithoutUpvotesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.StreamUpdateToOneWithWhereWithoutUpvotesInput, Prisma.StreamUpdateWithoutUpvotesInput>, Prisma.StreamUncheckedUpdateWithoutUpvotesInput>
 }
 
+export type StreamCreateWithoutAdderInput = {
+  id?: string
+  type: $Enums.StreamType
+  url: string
+  extractedId: string
+  title: string
+  smallThumbnail: string
+  bigThumbnail: string
+  active?: boolean
+  currentlyPlaying?: boolean
+  createdAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutCreatorStreamsInput
+  upvotes?: Prisma.UpvotesCreateNestedManyWithoutStreamInput
+}
+
+export type StreamUncheckedCreateWithoutAdderInput = {
+  id?: string
+  type: $Enums.StreamType
+  url: string
+  extractedId: string
+  title: string
+  smallThumbnail: string
+  bigThumbnail: string
+  active?: boolean
+  currentlyPlaying?: boolean
+  userId: string
+  createdAt?: Date | string
+  upvotes?: Prisma.UpvotesUncheckedCreateNestedManyWithoutStreamInput
+}
+
+export type StreamCreateOrConnectWithoutAdderInput = {
+  where: Prisma.StreamWhereUniqueInput
+  create: Prisma.XOR<Prisma.StreamCreateWithoutAdderInput, Prisma.StreamUncheckedCreateWithoutAdderInput>
+}
+
+export type StreamCreateManyAdderInputEnvelope = {
+  data: Prisma.StreamCreateManyAdderInput | Prisma.StreamCreateManyAdderInput[]
+  skipDuplicates?: boolean
+}
+
 export type StreamCreateWithoutUserInput = {
   id?: string
   type: $Enums.StreamType
@@ -490,6 +644,9 @@ export type StreamCreateWithoutUserInput = {
   smallThumbnail: string
   bigThumbnail: string
   active?: boolean
+  currentlyPlaying?: boolean
+  createdAt?: Date | string
+  adder: Prisma.UserCreateNestedOneWithoutAddedStreamsInput
   upvotes?: Prisma.UpvotesCreateNestedManyWithoutStreamInput
 }
 
@@ -502,6 +659,9 @@ export type StreamUncheckedCreateWithoutUserInput = {
   smallThumbnail: string
   bigThumbnail: string
   active?: boolean
+  currentlyPlaying?: boolean
+  createdAt?: Date | string
+  addedBy: string
   upvotes?: Prisma.UpvotesUncheckedCreateNestedManyWithoutStreamInput
 }
 
@@ -513,6 +673,40 @@ export type StreamCreateOrConnectWithoutUserInput = {
 export type StreamCreateManyUserInputEnvelope = {
   data: Prisma.StreamCreateManyUserInput | Prisma.StreamCreateManyUserInput[]
   skipDuplicates?: boolean
+}
+
+export type StreamUpsertWithWhereUniqueWithoutAdderInput = {
+  where: Prisma.StreamWhereUniqueInput
+  update: Prisma.XOR<Prisma.StreamUpdateWithoutAdderInput, Prisma.StreamUncheckedUpdateWithoutAdderInput>
+  create: Prisma.XOR<Prisma.StreamCreateWithoutAdderInput, Prisma.StreamUncheckedCreateWithoutAdderInput>
+}
+
+export type StreamUpdateWithWhereUniqueWithoutAdderInput = {
+  where: Prisma.StreamWhereUniqueInput
+  data: Prisma.XOR<Prisma.StreamUpdateWithoutAdderInput, Prisma.StreamUncheckedUpdateWithoutAdderInput>
+}
+
+export type StreamUpdateManyWithWhereWithoutAdderInput = {
+  where: Prisma.StreamScalarWhereInput
+  data: Prisma.XOR<Prisma.StreamUpdateManyMutationInput, Prisma.StreamUncheckedUpdateManyWithoutAdderInput>
+}
+
+export type StreamScalarWhereInput = {
+  AND?: Prisma.StreamScalarWhereInput | Prisma.StreamScalarWhereInput[]
+  OR?: Prisma.StreamScalarWhereInput[]
+  NOT?: Prisma.StreamScalarWhereInput | Prisma.StreamScalarWhereInput[]
+  id?: Prisma.StringFilter<"Stream"> | string
+  type?: Prisma.EnumStreamTypeFilter<"Stream"> | $Enums.StreamType
+  url?: Prisma.StringFilter<"Stream"> | string
+  extractedId?: Prisma.StringFilter<"Stream"> | string
+  title?: Prisma.StringFilter<"Stream"> | string
+  smallThumbnail?: Prisma.StringFilter<"Stream"> | string
+  bigThumbnail?: Prisma.StringFilter<"Stream"> | string
+  active?: Prisma.BoolFilter<"Stream"> | boolean
+  currentlyPlaying?: Prisma.BoolFilter<"Stream"> | boolean
+  userId?: Prisma.StringFilter<"Stream"> | string
+  createdAt?: Prisma.DateTimeFilter<"Stream"> | Date | string
+  addedBy?: Prisma.StringFilter<"Stream"> | string
 }
 
 export type StreamUpsertWithWhereUniqueWithoutUserInput = {
@@ -531,21 +725,6 @@ export type StreamUpdateManyWithWhereWithoutUserInput = {
   data: Prisma.XOR<Prisma.StreamUpdateManyMutationInput, Prisma.StreamUncheckedUpdateManyWithoutUserInput>
 }
 
-export type StreamScalarWhereInput = {
-  AND?: Prisma.StreamScalarWhereInput | Prisma.StreamScalarWhereInput[]
-  OR?: Prisma.StreamScalarWhereInput[]
-  NOT?: Prisma.StreamScalarWhereInput | Prisma.StreamScalarWhereInput[]
-  id?: Prisma.StringFilter<"Stream"> | string
-  type?: Prisma.EnumStreamTypeFilter<"Stream"> | $Enums.StreamType
-  url?: Prisma.StringFilter<"Stream"> | string
-  extractedId?: Prisma.StringFilter<"Stream"> | string
-  title?: Prisma.StringFilter<"Stream"> | string
-  smallThumbnail?: Prisma.StringFilter<"Stream"> | string
-  bigThumbnail?: Prisma.StringFilter<"Stream"> | string
-  active?: Prisma.BoolFilter<"Stream"> | boolean
-  userId?: Prisma.StringFilter<"Stream"> | string
-}
-
 export type StreamCreateWithoutUpvotesInput = {
   id?: string
   type: $Enums.StreamType
@@ -555,7 +734,10 @@ export type StreamCreateWithoutUpvotesInput = {
   smallThumbnail: string
   bigThumbnail: string
   active?: boolean
-  user: Prisma.UserCreateNestedOneWithoutStreamsInput
+  currentlyPlaying?: boolean
+  createdAt?: Date | string
+  adder: Prisma.UserCreateNestedOneWithoutAddedStreamsInput
+  user: Prisma.UserCreateNestedOneWithoutCreatorStreamsInput
 }
 
 export type StreamUncheckedCreateWithoutUpvotesInput = {
@@ -567,7 +749,10 @@ export type StreamUncheckedCreateWithoutUpvotesInput = {
   smallThumbnail: string
   bigThumbnail: string
   active?: boolean
+  currentlyPlaying?: boolean
   userId: string
+  createdAt?: Date | string
+  addedBy: string
 }
 
 export type StreamCreateOrConnectWithoutUpvotesInput = {
@@ -595,7 +780,10 @@ export type StreamUpdateWithoutUpvotesInput = {
   smallThumbnail?: Prisma.StringFieldUpdateOperationsInput | string
   bigThumbnail?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  user?: Prisma.UserUpdateOneRequiredWithoutStreamsNestedInput
+  currentlyPlaying?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  adder?: Prisma.UserUpdateOneRequiredWithoutAddedStreamsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutCreatorStreamsNestedInput
 }
 
 export type StreamUncheckedUpdateWithoutUpvotesInput = {
@@ -607,7 +795,24 @@ export type StreamUncheckedUpdateWithoutUpvotesInput = {
   smallThumbnail?: Prisma.StringFieldUpdateOperationsInput | string
   bigThumbnail?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  currentlyPlaying?: Prisma.BoolFieldUpdateOperationsInput | boolean
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  addedBy?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
+export type StreamCreateManyAdderInput = {
+  id?: string
+  type: $Enums.StreamType
+  url: string
+  extractedId: string
+  title: string
+  smallThumbnail: string
+  bigThumbnail: string
+  active?: boolean
+  currentlyPlaying?: boolean
+  userId: string
+  createdAt?: Date | string
 }
 
 export type StreamCreateManyUserInput = {
@@ -619,6 +824,53 @@ export type StreamCreateManyUserInput = {
   smallThumbnail: string
   bigThumbnail: string
   active?: boolean
+  currentlyPlaying?: boolean
+  createdAt?: Date | string
+  addedBy: string
+}
+
+export type StreamUpdateWithoutAdderInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumStreamTypeFieldUpdateOperationsInput | $Enums.StreamType
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  extractedId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  smallThumbnail?: Prisma.StringFieldUpdateOperationsInput | string
+  bigThumbnail?: Prisma.StringFieldUpdateOperationsInput | string
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  currentlyPlaying?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutCreatorStreamsNestedInput
+  upvotes?: Prisma.UpvotesUpdateManyWithoutStreamNestedInput
+}
+
+export type StreamUncheckedUpdateWithoutAdderInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumStreamTypeFieldUpdateOperationsInput | $Enums.StreamType
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  extractedId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  smallThumbnail?: Prisma.StringFieldUpdateOperationsInput | string
+  bigThumbnail?: Prisma.StringFieldUpdateOperationsInput | string
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  currentlyPlaying?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  upvotes?: Prisma.UpvotesUncheckedUpdateManyWithoutStreamNestedInput
+}
+
+export type StreamUncheckedUpdateManyWithoutAdderInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumStreamTypeFieldUpdateOperationsInput | $Enums.StreamType
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  extractedId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  smallThumbnail?: Prisma.StringFieldUpdateOperationsInput | string
+  bigThumbnail?: Prisma.StringFieldUpdateOperationsInput | string
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  currentlyPlaying?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type StreamUpdateWithoutUserInput = {
@@ -630,6 +882,9 @@ export type StreamUpdateWithoutUserInput = {
   smallThumbnail?: Prisma.StringFieldUpdateOperationsInput | string
   bigThumbnail?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  currentlyPlaying?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  adder?: Prisma.UserUpdateOneRequiredWithoutAddedStreamsNestedInput
   upvotes?: Prisma.UpvotesUpdateManyWithoutStreamNestedInput
 }
 
@@ -642,6 +897,9 @@ export type StreamUncheckedUpdateWithoutUserInput = {
   smallThumbnail?: Prisma.StringFieldUpdateOperationsInput | string
   bigThumbnail?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  currentlyPlaying?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  addedBy?: Prisma.StringFieldUpdateOperationsInput | string
   upvotes?: Prisma.UpvotesUncheckedUpdateManyWithoutStreamNestedInput
 }
 
@@ -654,6 +912,9 @@ export type StreamUncheckedUpdateManyWithoutUserInput = {
   smallThumbnail?: Prisma.StringFieldUpdateOperationsInput | string
   bigThumbnail?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  currentlyPlaying?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  addedBy?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
@@ -696,7 +957,11 @@ export type StreamSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   smallThumbnail?: boolean
   bigThumbnail?: boolean
   active?: boolean
+  currentlyPlaying?: boolean
   userId?: boolean
+  createdAt?: boolean
+  addedBy?: boolean
+  adder?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   upvotes?: boolean | Prisma.Stream$upvotesArgs<ExtArgs>
   _count?: boolean | Prisma.StreamCountOutputTypeDefaultArgs<ExtArgs>
@@ -711,7 +976,11 @@ export type StreamSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   smallThumbnail?: boolean
   bigThumbnail?: boolean
   active?: boolean
+  currentlyPlaying?: boolean
   userId?: boolean
+  createdAt?: boolean
+  addedBy?: boolean
+  adder?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["stream"]>
 
@@ -724,7 +993,11 @@ export type StreamSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   smallThumbnail?: boolean
   bigThumbnail?: boolean
   active?: boolean
+  currentlyPlaying?: boolean
   userId?: boolean
+  createdAt?: boolean
+  addedBy?: boolean
+  adder?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["stream"]>
 
@@ -737,25 +1010,32 @@ export type StreamSelectScalar = {
   smallThumbnail?: boolean
   bigThumbnail?: boolean
   active?: boolean
+  currentlyPlaying?: boolean
   userId?: boolean
+  createdAt?: boolean
+  addedBy?: boolean
 }
 
-export type StreamOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "url" | "extractedId" | "title" | "smallThumbnail" | "bigThumbnail" | "active" | "userId", ExtArgs["result"]["stream"]>
+export type StreamOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "url" | "extractedId" | "title" | "smallThumbnail" | "bigThumbnail" | "active" | "currentlyPlaying" | "userId" | "createdAt" | "addedBy", ExtArgs["result"]["stream"]>
 export type StreamInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  adder?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   upvotes?: boolean | Prisma.Stream$upvotesArgs<ExtArgs>
   _count?: boolean | Prisma.StreamCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type StreamIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  adder?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type StreamIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  adder?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $StreamPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Stream"
   objects: {
+    adder: Prisma.$UserPayload<ExtArgs>
     user: Prisma.$UserPayload<ExtArgs>
     upvotes: Prisma.$UpvotesPayload<ExtArgs>[]
   }
@@ -768,7 +1048,10 @@ export type $StreamPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     smallThumbnail: string
     bigThumbnail: string
     active: boolean
+    currentlyPlaying: boolean
     userId: string
+    createdAt: Date
+    addedBy: string
   }, ExtArgs["result"]["stream"]>
   composites: {}
 }
@@ -1163,6 +1446,7 @@ readonly fields: StreamFieldRefs;
  */
 export interface Prisma__StreamClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  adder<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   upvotes<T extends Prisma.Stream$upvotesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Stream$upvotesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UpvotesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -1202,7 +1486,10 @@ export interface StreamFieldRefs {
   readonly smallThumbnail: Prisma.FieldRef<"Stream", 'String'>
   readonly bigThumbnail: Prisma.FieldRef<"Stream", 'String'>
   readonly active: Prisma.FieldRef<"Stream", 'Boolean'>
+  readonly currentlyPlaying: Prisma.FieldRef<"Stream", 'Boolean'>
   readonly userId: Prisma.FieldRef<"Stream", 'String'>
+  readonly createdAt: Prisma.FieldRef<"Stream", 'DateTime'>
+  readonly addedBy: Prisma.FieldRef<"Stream", 'String'>
 }
     
 

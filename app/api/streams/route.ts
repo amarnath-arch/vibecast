@@ -2,6 +2,8 @@ import prisma from "@/db";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import youtubesearchapi from "youtube-search-api";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 const streamSchema = z.object({
   creatorId: z.string(),
@@ -16,6 +18,20 @@ function getYoutubeRegex() {
 
 export async function POST(req: NextRequest) {
   try {
+    // get the user id
+    const session = await getServerSession(authOptions);
+
+    if (!session.user.id) {
+      return NextResponse.json(
+        {
+          error: "Unauthorized Access",
+        },
+        {
+          status: 403,
+        }
+      );
+    }
+
     const data = streamSchema.parse(await req.json());
 
     const isYtUrl = getYoutubeRegex().test(data.url);
@@ -54,6 +70,7 @@ export async function POST(req: NextRequest) {
         title: result.title,
         smallThumbnail: thumbnails[thumbnails.length - 2].url,
         bigThumbnail: thumbnails[thumbnails.length - 1].url,
+        addedBy: session.user.id,
         // title: title,
         // smallThumbnail: thumbnails[thumbnails.length - 2].url,
         // bigThumbnail: thumbnails[thumbnails.length - 1].url,
@@ -62,7 +79,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       message: "stream created",
-      id: stream.id,
+      stream,
     });
   } catch (err) {
     console.error(err);
@@ -79,6 +96,18 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
+  const session = await getServerSession(authOptions);
+  if (!session.user.id) {
+    return NextResponse.json(
+      {
+        error: "Unauthorized Access",
+      },
+      {
+        status: 403,
+      }
+    );
+  }
+
   const creatorId = req.nextUrl.searchParams.get("creatorId");
 
   if (!creatorId) {
@@ -95,12 +124,39 @@ export async function GET(req: NextRequest) {
   const streams = await prisma.stream.findMany({
     where: {
       userId: creatorId,
+      currentlyPlaying: false,
+    },
+    include: {
+      _count: {
+        select: {
+          upvotes: true,
+        },
+      },
+      upvotes: {
+        where: {
+          userId: session.user.id,
+        },
+      },
+    },
+  });
+
+  const activeStream = await prisma.stream.findFirst({
+    where: {
+      currentlyPlaying: true,
     },
   });
 
   return NextResponse.json(
     {
-      streams,
+      streams: streams.map(({ _count, ...rest }) => {
+        return {
+          ...rest,
+          upVotesCount: _count.upvotes,
+          haveUpvoted: rest.upvotes.length ? true : false,
+        };
+      }),
+
+      activeStream,
     },
     {
       status: 200,

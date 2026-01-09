@@ -11,6 +11,12 @@ export const DashboardHeader = ({ listenerCount }: DashboardHeaderProps) => {
   const session = useSession();
   const loggedIn = session.data?.user;
 
+  const handleShare = async () => {
+    const sharableLink = `${window.location.host}/creator/${session?.data?.user?.id}`;
+    await navigator.clipboard.writeText(sharableLink);
+    alert("Link Copied");
+  };
+
   return (
     <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
       <div className="flex items-center gap-4">
@@ -51,7 +57,10 @@ export const DashboardHeader = ({ listenerCount }: DashboardHeaderProps) => {
           </span>
         </div>
 
-        <button className="p-3 rounded-full bg-muted hover:bg-muted/80 text-foreground transition-colors">
+        <button
+          onClick={handleShare}
+          className="p-3 rounded-full bg-muted hover:bg-muted/80 text-foreground transition-colors"
+        >
           <Share2 className="w-5 h-5" />
         </button>
       </div>

@@ -685,7 +685,10 @@ export const StreamScalarFieldEnum = {
   smallThumbnail: 'smallThumbnail',
   bigThumbnail: 'bigThumbnail',
   active: 'active',
-  userId: 'userId'
+  currentlyPlaying: 'currentlyPlaying',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  addedBy: 'addedBy'
 } as const
 
 export type StreamScalarFieldEnum = (typeof StreamScalarFieldEnum)[keyof typeof StreamScalarFieldEnum]
@@ -768,6 +771,20 @@ export type ListEnumStreamTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$P
  * Reference to a field of type 'Boolean'
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
+ * Reference to a field of type 'DateTime'
+ */
+export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+/**
+ * Reference to a field of type 'DateTime[]'
+ */
+export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
     
 
 

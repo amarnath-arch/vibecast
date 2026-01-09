@@ -31,6 +31,15 @@ export async function POST(req: NextRequest) {
         streamId: data.streamId,
       },
     });
+
+    return NextResponse.json(
+      {
+        message: "done",
+      },
+      {
+        status: 200,
+      }
+    );
   } catch (err) {
     NextResponse.json(
       {

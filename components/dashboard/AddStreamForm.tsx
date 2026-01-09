@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Plus, Link, Youtube, Music2, X, Loader2 } from "lucide-react";
 import { Stream } from "@/types/stream";
+import youtubesearchapi from "youtube-search-api";
 
 interface AddStreamFormProps {
   onAddStream: (
@@ -13,20 +14,41 @@ interface PreviewData {
   title: string;
   thumbnail: string;
   duration: string;
-  platform: "youtube" | "spotify";
+  type: "Youtube" | "Spotify";
 }
 
 // Mock function to simulate fetching video/track info
 const fetchPreview = async (url: string): Promise<PreviewData | null> => {
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
+  const extractedId = url.split("?v=")[1];
+
+  console.log("extracted Id ::::", extractedId);
+
+  const res = await fetch(`/api/getVideoDetails?url=${url}`);
+  let result = await res.json();
+
+  console.log("preview is : ", result);
+
+  // // get thumbnail and title
+  // const result = await youtubesearchapi.GetVideoDetails(extractedId);
+  // const title = result.title;
+  // const thumbnails = result.thumbnail.thumbnails;
+
+  // thumbnails.sort((a: { width: number }, b: { width: number }) =>
+  //   a.width < b.width ? -1 : 1
+  // );
+
+  // const thumbnail = thumbnails[thumbnails.length - 1].url;
+
+  // console.log(result);
+
   if (url.includes("youtube.com") || url.includes("youtu.be")) {
     return {
-      title: "Lofi Hip Hop Radio - Beats to Relax/Study To",
-      thumbnail:
-        "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop",
+      title: result.title,
+      thumbnail: result.thumbnail,
       duration: "3:45",
-      platform: "youtube",
+      type: "Youtube",
     };
   } else if (url.includes("spotify.com")) {
     return {
@@ -34,7 +56,7 @@ const fetchPreview = async (url: string): Promise<PreviewData | null> => {
       thumbnail:
         "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&h=400&fit=crop",
       duration: "4:22",
-      platform: "spotify",
+      type: "Spotify",
     };
   }
   return null;
@@ -45,6 +67,7 @@ export const AddStreamForm = ({ onAddStream }: AddStreamFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [preview, setPreview] = useState<PreviewData | null>(null);
   const [error, setError] = useState("");
+  const [loadingAddQueue, setLoadingAddQueue] = useState<boolean>(false);
 
   const handleUrlChange = async (value: string) => {
     setUrl(value);
@@ -78,20 +101,34 @@ export const AddStreamForm = ({ onAddStream }: AddStreamFormProps) => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!preview) return;
 
-    onAddStream({
-      url,
-      title: preview.title,
-      thumbnail: preview.thumbnail,
-      duration: preview.duration,
-      platform: preview.platform,
-      addedBy: "You",
+    setLoadingAddQueue(true);
+
+    const res = await fetch("/api/streams", {
+      method: "POST",
+      body: JSON.stringify({
+        creatorId: "09369b63-7532-43da-9c61-75c879a78ef6",
+        url: url,
+      }),
     });
+
+    let result = await res.json();
+
+    // onAddStream({
+    //   url: result.stream.url,
+    //   title: result.stream.title,
+    //   thumbnail: result.stream.smallThumbnail,
+    //   duration: preview.duration,
+    //   type: result.stream.type,
+    //   haveUpvoted: false,
+    //   addedBy: result.stream.addedBy,
+    // });
 
     setUrl("");
     setPreview(null);
+    setLoadingAddQueue(false);
   };
 
   const clearInput = () => {
@@ -167,15 +204,12 @@ export const AddStreamForm = ({ onAddStream }: AddStreamFormProps) => {
               <div className="flex items-center gap-2 mt-2">
                 <span
                   className={`text-xs px-2 py-1 rounded-full ${
-                    preview.platform === "youtube"
+                    preview.type === "Youtube"
                       ? "bg-red-500/20 text-red-400"
                       : "bg-green-500/20 text-green-400"
                   }`}
                 >
-                  {preview.platform === "youtube" ? "YouTube" : "Spotify"}
-                </span>
-                <span className="text-muted-foreground text-sm">
-                  {preview.duration}
+                  {preview.type === "Youtube" ? "YouTube" : "Spotify"}
                 </span>
               </div>
             </div>
@@ -183,10 +217,17 @@ export const AddStreamForm = ({ onAddStream }: AddStreamFormProps) => {
 
           <button
             onClick={handleSubmit}
-            className="w-full mt-4 bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
+            disabled={loadingAddQueue}
+            className="cursor-pointer w-full mt-4 bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
           >
-            <Plus className="w-5 h-5" />
-            Add to Queue
+            {loadingAddQueue ? (
+              <>...Adding to Queue</>
+            ) : (
+              <>
+                <Plus className="w-5 h-5" />
+                Add to Queue
+              </>
+            )}
           </button>
         </div>
       )}

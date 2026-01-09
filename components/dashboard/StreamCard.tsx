@@ -44,7 +44,7 @@ export const StreamCard = ({ stream, rank, onVote }: StreamCardProps) => {
             {stream.title}
           </h3>
           <div className="flex items-center gap-2 mt-1">
-            {stream.platform === "youtube" ? (
+            {stream.type === "Youtube" ? (
               <Youtube className="w-3.5 h-3.5 text-red-400" />
             ) : (
               <Music2 className="w-3.5 h-3.5 text-green-400" />
@@ -63,11 +63,12 @@ export const StreamCard = ({ stream, rank, onVote }: StreamCardProps) => {
         <div className="flex flex-col items-center gap-1">
           <button
             onClick={() => onVote(stream.id, "up")}
+            disabled={stream.haveUpvoted}
             className={cn(
               "p-1.5 rounded-lg transition-all",
               stream.userVote === "up"
-                ? "bg-upvote/20 text-upvote"
-                : "text-muted-foreground hover:text-upvote hover:bg-upvote/10"
+                ? "text-muted-foreground hover:text-upvote hover:bg-upvote/10"
+                : "bg-upvote/20 text-upvote"
             )}
           >
             <ChevronUp className="w-5 h-5" />
@@ -86,11 +87,12 @@ export const StreamCard = ({ stream, rank, onVote }: StreamCardProps) => {
 
           <button
             onClick={() => onVote(stream.id, "down")}
+            // disabled={!stream.haveUpvoted}
             className={cn(
               "p-1.5 rounded-lg transition-all",
               stream.userVote === "down"
-                ? "bg-downvote/20 text-downvote"
-                : "text-muted-foreground hover:text-downvote hover:bg-downvote/10"
+                ? "text-muted-foreground hover:text-downvote hover:bg-downvote/10"
+                : "bg-downvote/20 text-downvote"
             )}
           >
             <ChevronDown className="w-5 h-5" />

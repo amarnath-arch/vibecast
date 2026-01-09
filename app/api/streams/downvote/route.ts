@@ -9,6 +9,7 @@ const UpvoteSchema = z.object({
 });
 
 export async function POST(req: NextRequest) {
+  console.log("I am here");
   try {
     const session = await getServerSession(authOptions);
 
@@ -33,6 +34,15 @@ export async function POST(req: NextRequest) {
         },
       },
     });
+
+    return NextResponse.json(
+      {
+        message: "done",
+      },
+      {
+        status: 200,
+      }
+    );
   } catch (err) {
     NextResponse.json(
       {

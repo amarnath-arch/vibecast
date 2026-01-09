@@ -15,25 +15,30 @@ datasource db {
 }
 
 model User {
-  id       String    @id @default(uuid())
-  email    String    @unique
-  provider Provider
-  streams  Stream[]
-  upvotes  Upvotes[]
+  id             String    @id @default(uuid())
+  email          String    @unique
+  provider       Provider
+  upvotes        Upvotes[]
+  addedStreams   Stream[]  @relation(name: "added_by_user_relation")
+  creatorStreams Stream[]  @relation(name: "creators_streams")
 }
 
 model Stream {
-  id             String     @id @default(uuid())
-  type           StreamType
-  url            String
-  extractedId    String
-  title          String
-  smallThumbnail String
-  bigThumbnail   String
-  active         Boolean    @default(true)
-  userId         String
-  user           User       @relation(fields: [userId], references: [id])
-  upvotes        Upvotes[]
+  id               String     @id @default(uuid())
+  type             StreamType
+  url              String
+  extractedId      String
+  title            String
+  smallThumbnail   String
+  bigThumbnail     String
+  active           Boolean    @default(true)
+  currentlyPlaying Boolean    @default(false)
+  userId           String // creator Id
+  createdAt        DateTime   @default(now())
+  addedBy          String
+  adder            User       @relation(fields: [addedBy], references: [id], name: "added_by_user_relation")
+  user             User       @relation(fields: [userId], references: [id], name: "creators_streams")
+  upvotes          Upvotes[]
 }
 
 model Upvotes {
@@ -41,7 +46,7 @@ model Upvotes {
   userId   String
   streamId String
   user     User   @relation(fields: [userId], references: [id])
-  stream   Stream @relation(fields: [streamId], references: [id])
+  stream   Stream @relation(fields: [streamId], references: [id], onDelete: Cascade)
 
   @@unique([userId, streamId])
 }

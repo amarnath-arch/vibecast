@@ -90,7 +90,10 @@ export const StreamScalarFieldEnum = {
   smallThumbnail: 'smallThumbnail',
   bigThumbnail: 'bigThumbnail',
   active: 'active',
-  userId: 'userId'
+  currentlyPlaying: 'currentlyPlaying',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  addedBy: 'addedBy'
 } as const
 
 export type StreamScalarFieldEnum = (typeof StreamScalarFieldEnum)[keyof typeof StreamScalarFieldEnum]
